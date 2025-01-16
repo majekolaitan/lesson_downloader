@@ -148,10 +148,6 @@ def parse_relative_time(relative_time):
     else:
         return None  # In case of an unrecognized unit
 
-def parse_relative_time(relative_time):
-    # Simulate parsing logic to convert relative time to datetime
-    return datetime.now()  # Placeholder for actual time parsing
-
 def search_channel_videos(lesson_title, lesson_number, quarter, year):
     urls = []
 
