@@ -28,6 +28,7 @@ CHANNEL_IDS = {
     'claudiocarneiro': {'id': 'UCvJRu-jirSkv6yuxakirENg', 'query_format': '{year} Q{quarter} Lesson {lesson_number} – {lesson_title} – Audio by Percy Harrold', 'first_result': True},
     'HopeLives365': {'id': 'UCOuDMda3jxj-g_iI1P2d2zw', 'query_format': 'Sabbath School with Mark Finley | Lesson {lesson_number} — Q{quarter} – {year}', 'first_result': True},
     'egwhiteaudio': {'id': 'UCPS3A-60tKmKTCKWZMT9upA', 'query_format': '{year} Q{quarter} Lesson {lesson_number} – EGW Notes – {lesson_title}', 'first_result': True},
+    'claudiocarneiroegw': {'id': 'UCvJRu-jirSkv6yuxakirENg', 'query_format': '{year} Q{quarter} Lesson {lesson_number} – EGW Notes – {lesson_title} Carla Morris', 'first_result': True},
 }
 
 def get_quarter_and_week(date):
