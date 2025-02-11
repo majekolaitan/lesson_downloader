@@ -215,11 +215,11 @@ def download_video(url, format_code, lesson_number):
 
     Parameters:
     - url (str): The URL of the YouTube video.
-    - format_code (str): The format code to be passed to yt-dlp (e.g., "139/140" for audio).
+    - format_code (str): The format code to be passed to yt-dlp (e.g., "140" for audio).
     - lesson_number (int): The current lesson number for dynamic naming.
     """
     # Dynamically generate the archive filename based on the lesson number
-    archive_file = f'Downloaded Videos Lesson {lesson_number}.txt'
+    archive_file = f'downloaded_videos_lesson_{lesson_number}.txt'
     
     ydl_opts = {
         'format': format_code,
@@ -361,7 +361,7 @@ if __name__ == "__main__":
 
     # Argument parser setup
     parser = argparse.ArgumentParser(description='Download a Sabbath School lesson video from 3ABN.')
-    parser.add_argument('-f', '--format', type=str, default='139/140', help='The download format (default: "139/140")')
+    parser.add_argument('-f', '--format', type=str, default='140', help='The download format (default: "140")')
     args = parser.parse_args()
     format_code = args.format
 
