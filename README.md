@@ -1,117 +1,81 @@
-# Sabbath School Lesson Downloader
+# YouTube Sabbath School Lesson Downloader
 
-A Python-based script to download Sabbath School lesson videos from popular YouTube channels. This tool automates the retrieval and download of weekly lesson videos, ensuring you're always prepared with the latest content.
+## Overview
 
----
+This script automates the process of searching and downloading Sabbath School lesson videos from YouTube channels. It searches specified YouTube channels for lesson videos based on a predefined query format, allows for optional confirmation before downloading, and saves the videos to a local directory.
 
 ## Features
 
-- **Automated Weekly Updates**: Detects the current week's lesson based on the date.
-- **Customizable Channels**: Supports multiple YouTube channels, including 3ABN and It Is Written.
-- **Flexible Video Formats**: Allows users to specify download formats.
-- **Efficient Downloads**: Avoids re-downloading previously downloaded videos.
-- **Automatic Cleanup**: Deletes outdated lesson files to save storage.
-
----
+- **Configurable Channel Search:** Define YouTube channels and query formats in `config.py`.
+- **First Result Selection:** Automatically selects the first search result if enabled.
+- **Confirmation Prompt:** Optionally confirm before adding videos to the download list.
+- **Sorting by Published Date:** When `first_result` is disabled, the most recent video is selected.
+- **Automatic Downloading:** Retrieves and saves the selected videos to a specified folder.
 
 ## Installation
 
-1. **Clone the repository**:
+1. Clone the repository:
 
-   ```bash
-   git clone https://github.com/majekolaitan/lesson_downloader.git
+   ```sh
+   git clone https://github.com/yourusername/sabbath-school-downloader.git
    cd sabbath-school-downloader
    ```
 
-2. **Set up a virtual environment** (optional but recommended):
-
-   ```bash
-   python -m venv venv
-   source venv/bin/activate    # On Windows: venv\Scripts\activate
-   ```
-
-3. **Install dependencies**:
-   ```bash
+2. Install dependencies:
+   ```sh
    pip install -r requirements.txt
    ```
 
----
+## Configuration
+
+Modify `config.py` to specify the YouTube channels and query formats.
+
+Example:
+
+```python
+CHANNEL_IDS = {
+    '3abn': {
+        'id': 'UCw_AthKfwqB3XYpboTFZFmg',
+        'query_format': '{lesson_title} | Sabbath School Panel by 3ABN - Lesson {lesson_number} Q{quarter} {year}',
+        'first_result': True,
+        'confirm_download': False
+    },
+    'itiswritten': {
+        'id': 'UCtWyoUrGPAkZgnp2486Ir4w',
+        'query_format': 'Sabbath School - {year} Q{quarter} Lesson {lesson_number}: {lesson_title}',
+        'first_result': True,
+        'confirm_download': True
+    }
+}
+```
+
+### Key Configurations
+
+- `first_result`: If `True`, selects the first search result automatically.
+- `confirm_download`: If `True`, asks for confirmation before adding a video.
+- `query_format`: Defines the search query format.
 
 ## Usage
 
-### Run the script
+Run the script to search and download lesson videos:
 
-```bash
-python lesson_downloader/main.py [-f FORMAT_CODE]
+```sh
+python main.py
 ```
 
-- **Optional Arguments**:
-  - `-f`, `--format`: Specify the download format. Default is `139/140`.
+The script will:
 
-### Example
-
-```bash
-python lesson_downloader/main.py -f 22
-```
-
-This will download the video in format `22` for the current week's lesson.
-
----
-
-## Configuration
-
-### Supported Channels
-
-- **3ABN**
-  - YouTube Channel ID: `UCw_AthKfwqB3XYpboTFZFmg`
-- **It Is Written**
-  - YouTube Channel ID: `UCtWyoUrGPAkZgnp2486Ir4w`
-
-You can add more channels by updating the `CHANNEL_IDS` dictionary in `main.py`.
-
-### Lesson Title Logic
-
-The script uses placeholders for lesson titles. Replace `"Placeholder Title"` in the `main()` function with logic to retrieve actual titles.
-
----
+1. Search YouTube channels for lesson videos.
+2. Display the found video titles.
+3. Confirm downloads if `confirm_download` is enabled.
+4. Download and save the selected videos.
 
 ## Dependencies
 
-- [Python 3.8+](https://www.python.org/)
-- [requests](https://pypi.org/project/requests/)
-- [yt-dlp](https://pypi.org/project/yt-dlp/)
-- [youtubesearchpython](https://pypi.org/project/youtubesearchpython/)
-- [python-dateutil](https://pypi.org/project/python-dateutil/)
-
-Install all dependencies using:
-
-```bash
-pip install -r requirements.txt
-```
-
----
-
-## Contributing
-
-Contributions are welcome! To contribute:
-
-1. Fork the repository.
-2. Create a new branch: `git checkout -b feature-name`.
-3. Commit your changes: `git commit -m 'Add some feature'`.
-4. Push to the branch: `git push origin feature-name`.
-5. Open a pull request.
-
----
+- `youtubesearchpython`
+- `dateutil`
+- `pytube`
 
 ## License
 
-This project is licensed under the MIT License. See the `LICENSE` file for details.
-
----
-
-## Acknowledgements
-
-Special thanks to the creators and contributors of the following libraries:
-
-- [yt-dlp](https://github.com/yt-dlp/yt-dlp)
-- [YouTube Search Python](https://github.com/alexmercerind/youtube-search-python)
+This project is open-source and available under the MIT License.
