@@ -1,33 +1,31 @@
 import os
 import re
-from datetime import datetime, timedelta
+from datetime import date, datetime, timedelta
 
-def get_quarter_and_week(date):
-    try:
-        month = date.month
-    except ValueError as ve:
-        print(f"Invalid date provided: {ve}")
-        return None, None
+from datetime import datetime
 
-    if 1 <= month <= 3:
-        quarter_start_month = 1
+def get_quarter_and_week(date_obj):
+    """Returns the quarter and the week number within that quarter for a given datetime object."""
+    
+    # Determine the quarter
+    month = date_obj.month
+    if month <= 3:
+        quarter_start = datetime(date_obj.year, 1, 1)
         quarter = 1
-    elif 4 <= month <= 6:
-        quarter_start_month = 4
+    elif month <= 6:
+        quarter_start = datetime(date_obj.year, 4, 1)
         quarter = 2
-    elif 7 <= month <= 9:
-        quarter_start_month = 7
+    elif month <= 9:
+        quarter_start = datetime(date_obj.year, 7, 1)
         quarter = 3
     else:
-        quarter_start_month = 10
+        quarter_start = datetime(date_obj.year, 10, 1)
         quarter = 4
+    
+    # Calculate week number within the quarter
+    days_passed = (date_obj - quarter_start).days
+    week_of_quarter = (days_passed // 7) + 1
 
-    quarter_start = datetime(date.year, quarter_start_month, 1)
-    quarter_start_weekday = quarter_start.weekday()
-    days_since_saturday = (quarter_start_weekday - 5) % 7
-    week_start_date = quarter_start - timedelta(days=days_since_saturday)
-    day_difference = (date - week_start_date).days
-    week_of_quarter = (day_difference // 7) + 1
     return quarter, week_of_quarter
 
 def parse_relative_time(relative_time):

@@ -1,6 +1,6 @@
 import os
 import argparse
-from datetime import datetime
+from datetime import date, datetime
 from config import ROOT_DIR
 from utils import get_quarter_and_week, cleanup_old_lessons
 from youtube import get_lesson_title, search_channel_videos
@@ -11,6 +11,7 @@ os.chdir(ROOT_DIR)
 
 if __name__ == "__main__":
     today = datetime.today()
+    # today = datetime(2025, 4, 1)
     current_quarter, current_lesson_number = get_quarter_and_week(today)
     current_year = today.year
     print(f"Current Year: {current_year}, Quarter: {current_quarter}, Lesson: {current_lesson_number}")
