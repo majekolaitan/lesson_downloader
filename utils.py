@@ -1,32 +1,63 @@
 import os
 import re
 from datetime import date, datetime, timedelta
+import math
 
 from datetime import datetime
 
-def get_quarter_and_week(date_obj):
-    """Returns the quarter and the week number within that quarter for a given datetime object."""
+def get_sabbath_school_info(date=None):
+    """
+    Returns the current quarter number (1-4) and lesson number (1-13) for 
+    Seventh-day Adventist Sabbath School lessons, which start on Saturdays.
+    The lesson returned is one week ahead of the actual date.
     
-    # Determine the quarter
-    month = date_obj.month
-    if month <= 3:
-        quarter_start = datetime(date_obj.year, 1, 1)
-        quarter = 1
-    elif month <= 6:
-        quarter_start = datetime(date_obj.year, 4, 1)
-        quarter = 2
-    elif month <= 9:
-        quarter_start = datetime(date_obj.year, 7, 1)
-        quarter = 3
-    else:
-        quarter_start = datetime(date_obj.year, 10, 1)
-        quarter = 4
+    Parameters:
+    date (datetime, optional): A datetime object to calculate for. Defaults to current date.
     
-    # Calculate week number within the quarter
-    days_passed = (date_obj - quarter_start).days
-    week_of_quarter = (days_passed // 7) + 1
+    Returns:
+    dict: Dictionary containing quarter (1-4), lesson (1-13), and year
+    """
+    # Use provided date or current date
+    target_date = date if date is not None else datetime.now()
+    
+    # Add one week to get the next lesson
+    target_date = target_date + timedelta(days=7)
+    
+    current_year = target_date.year
+    
+    # Define the start date of the first quarter
+    # First quarter typically starts on the first Saturday of January
+    first_day = datetime(current_year, 1, 1)
+    days_until_saturday = (5 - first_day.weekday()) % 7  # 5 is Saturday (0 is Monday in Python)
+    first_saturday = first_day + timedelta(days=days_until_saturday)
+    
+    # Calculate days passed since first Saturday of the year
+    days_passed = (target_date - first_saturday).days
+    
+    # Each quarter has 13 lessons (13 weeks)
+    # Total of 52 weeks in a year (4 quarters of 13 weeks each)
+    days_per_quarter = 13 * 7  # 13 weeks × 7 days
+    
+    # Calculate current quarter (1-based)
+    # Handle negative days (if date is before first Saturday)
+    if days_passed < 0:
+        # Go back to previous year's last quarter
+        prev_year_first = datetime(current_year - 1, 1, 1)
+        days_until_saturday = (5 - prev_year_first.weekday()) % 7
+        prev_first_saturday = prev_year_first + timedelta(days=days_until_saturday)
+        days_passed = (target_date - prev_first_saturday).days
+        current_year -= 1
+    
+    current_quarter = min(4, math.floor(days_passed / days_per_quarter) + 1)
+    
+    # Calculate days into the current quarter
+    days_into_quarter = days_passed % days_per_quarter
+    
+    # Calculate current lesson (1-based)
+    current_lesson = min(13, math.floor(days_into_quarter / 7) + 1)
+    
+    return current_year, current_quarter, current_lesson
 
-    return quarter, week_of_quarter
 
 def parse_relative_time(relative_time):
     from datetime import datetime, timedelta

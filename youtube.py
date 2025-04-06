@@ -10,7 +10,7 @@ def get_lesson_title(lesson_number, quarter, year):
     """
     Search YouTube for the title of the current lesson.
     """
-    query = f"Sabbath School Panel by 3ABN - Lesson {lesson_number} Q{quarter} {year}"
+    query = f"{lesson_number} Q{quarter} {year}"
     channel_id = "UCw_AthKfwqB3XYpboTFZFmg"  # 3ABN Channel ID
     search = ChannelSearch(query, channel_id)
     result_string = search.result(mode=ResultMode.json)
