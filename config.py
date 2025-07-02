@@ -2,7 +2,15 @@ import os
 
 # Dynamically determine the user's home directory
 USER_HOME_DIR = os.path.expanduser('~')
-ROOT_DIR = os.path.join(USER_HOME_DIR, 'Videos', 'Lesson Study')
+
+# Determine if the system is Android (by checking for 'ANDROID_STORAGE' env or termux-style paths)
+if 'ANDROID_STORAGE' in os.environ or 'com.termux' in USER_HOME_DIR.lower():
+    ROOT_DIR = os.path.join(USER_HOME_DIR, 'storage', 'downloads', 'lesson')
+else:
+    # Assume it's Windows or macOS
+    ROOT_DIR = os.path.join(USER_HOME_DIR, 'Downloads', 'lesson')
+
+DEFAULT_DOWNLOAD_FORMAT = "bv[vcodec^=avc1][height<=720]+ba[acodec^=mp4a]/bv[height<=720]+ba"
 
 # Define channel IDs and query formats
 # Channel E.G. White Audio 'id': 'UCPS3A-60tKmKTCKWZMT9upA'

@@ -1,10 +1,13 @@
 import os
 import argparse
 from datetime import date, datetime
-from config import ROOT_DIR
+from config import ROOT_DIR, DEFAULT_DOWNLOAD_FORMAT
 from utils import get_sabbath_school_info, cleanup_old_lessons
 from youtube import get_lesson_title, search_channel_videos
 from downloader import download_video, download_daily_lesson_audio_files
+
+# Create the directory if it doesn't exist
+os.makedirs(ROOT_DIR, exist_ok=True)
 
 # Set working directory
 os.chdir(ROOT_DIR)
@@ -23,7 +26,7 @@ if __name__ == "__main__":
     cleanup_old_lessons(current_lesson)
 
     parser = argparse.ArgumentParser(description='Download a Sabbath School lesson video from 3ABN.')
-    parser.add_argument('-f', '--format', type=str, default="bestvideo[vcodec^=avc1][width=640]+bestaudio", help='The download format (default: "avc1@360")')
+    parser.add_argument('-f', '--format', type=str, default=DEFAULT_DOWNLOAD_FORMAT, help='The download format (default: "avc1@360")')
     args = parser.parse_args()
     format_code = args.format
 
